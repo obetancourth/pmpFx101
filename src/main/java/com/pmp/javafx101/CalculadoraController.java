@@ -68,15 +68,18 @@ public class CalculadoraController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        lblDisplay.setText(valueToProcess);
     }    
 
     private Boolean dotPending = false;
+    private String operation = "";
+    private double operand = 0; 
     @FXML
     private void btn_onClick(ActionEvent event) {
         Button btnClicked = (Button) event.getSource();
        
         switch (btnClicked.getId()) {
-            case "btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9":
+            case "btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9", "btn0":
                 if (dotPending) {
                     valueToProcess = valueToProcess + ".";
                     dotPending = false;
@@ -102,6 +105,33 @@ public class CalculadoraController implements Initializable {
                 valueToProcess = "";
                 dotPending = false;
                 break;
+            case "btnAdd", "btnEqual", "btnSubtract", "btnMultiply", "btnDivide", "btnPercent":
+                if ( operation == "") {
+                    operand = Double.valueOf(valueToProcess);
+                    operation = btnClicked.getText();
+                    valueToProcess = "";
+                } else {
+                    Double tmpOperand = Double.valueOf(valueToProcess);
+                    switch (operation) {
+                        case "+":
+                            operand = operand + tmpOperand;
+                            break;
+                        case "-":
+                            operand = operand - tmpOperand;
+                            break;
+                        case "*":
+                            operand = operand * tmpOperand;
+                            break;
+                        case "/":
+                            operand = operand / tmpOperand;
+                            break;
+                        case "%":
+                            operand = operand * tmpOperand / 100;
+                            break;
+                    }
+                    operation = "";
+                    valueToProcess = String.valueOf(operand);
+                }
         }
         
         lblDisplay.setText(valueToProcess);
