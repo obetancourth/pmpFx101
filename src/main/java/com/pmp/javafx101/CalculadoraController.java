@@ -104,6 +104,8 @@ public class CalculadoraController implements Initializable {
             case "btnClear":
                 valueToProcess = "";
                 dotPending = false;
+                operand = 0;
+                operation = "";
                 break;
             case "btnAdd", "btnEqual", "btnSubtract", "btnMultiply", "btnDivide", "btnPercent":
                 if ( operation == "") {
