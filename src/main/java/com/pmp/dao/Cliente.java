@@ -146,4 +146,9 @@ public class Cliente {
     private String _genero;
     private String _estadoCivil;
     private String _estado;
+    
+    
+    public String getString(){
+        return _nombres + " " + _apellidos; 
+    }
 }

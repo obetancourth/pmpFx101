@@ -107,4 +107,24 @@ public class ClienteformController implements Initializable {
         
         
     }
+    
+    public Cliente getClienteObject(){
+        refreshObjFromUx();
+        return _cliente;
+    }
+    
+    private void refreshObjFromUx(){
+        _cliente.setNombres(txtNombres.getText());
+        _cliente.setApellidos(txtApellidos.getText());
+        _cliente.setEmail(txtEmail.getText());
+        _cliente.setTelefono(txtTelefono.getText());
+        _cliente.setDireccion(txtDireccion.getText());
+        _cliente.setOcupacion(txtOcupacion.getText());
+        
+        _cliente.setGenero(rdbGeneroMasculino.isSelected()?"M":"F");
+        _cliente.setEstadoCivil(rdbEstCSoltero.isSelected()?"S":(rdbEstCCasado.isSelected()?"C":"V"));
+
+        
+        
+    }
 }
