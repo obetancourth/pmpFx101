@@ -7,15 +7,17 @@ package com.pmp.javafx101;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-iimport javafx.event.ActionEvent;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-mport javafx.fxml.Initializable;
+import javafx.fxml.Initializable;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+
+import com.pmp.dao.Cliente;
 /**
  * FXML Controller class
  *
@@ -70,6 +72,39 @@ public class ClienteformController implements Initializable {
 
     @FXML
     private void btnCancelar_click(ActionEvent event) {
+        App.closeModal(event);
     }
-
+    
+    private Cliente _cliente;
+    public void setClienteObject( Cliente cliente) {
+        _cliente = cliente;
+        refreshUX();
+    }
+    private void refreshUX(){
+        txtNombres.setText(_cliente.getNombres());
+        txtApellidos.setText(_cliente.getApellidos());
+        txtEmail.setText(_cliente.getEmail());
+        txtTelefono.setText(_cliente.getTelefono());
+        txtDireccion.setText(_cliente.getDireccion());
+        txtOcupacion.setText(_cliente.getOcupacion());
+        
+        rdbGeneroMasculino.setSelected(_cliente.getGenero() == "M");
+        rdbGeneroFemenino.setSelected(_cliente.getGenero() == "F");
+        
+        /*
+        if (_cliente.getGenero() == "M") {
+            rdbGeneroMasculino.setSelected(true);
+            rdbGeneroFemenino.setSelected(false);
+        } else {
+            rdbGeneroMasculino.setSelected(false);
+            rdbGeneroFemenino.setSelected(true);
+        }
+        */
+        
+        rdbEstCSoltero.setSelected(_cliente.getEstadoCivil() == "S");
+        rdbEstCCasado.setSelected(_cliente.getEstadoCivil() == "C");
+        rdbEstCViudo.setSelected(_cliente.getEstadoCivil() == "V");
+        
+        
+    }
 }

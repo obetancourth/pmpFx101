@@ -7,8 +7,8 @@
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pmp.javafx101.PrimaryController">
    <children>
-      <Label text="Primary View" />
-      <Button fx:id="primaryButton" onAction="#switchToSecondary" text="Switch to Secondary View" />
+      <Label text="Menu Principal" />
+      <Button fx:id="primaryButton" onAction="#switchToSecondary" text="Abrir Cliente Form" />
       <Label fx:id="labelContador" accessibleHelp="Un label Mas" text="Modificado por Mi" />
    </children>
    <padding>

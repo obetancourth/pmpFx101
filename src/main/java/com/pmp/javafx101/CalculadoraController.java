@@ -74,10 +74,14 @@ public class CalculadoraController implements Initializable {
     private Boolean dotPending = false;
     private String operation = "";
     private double operand = 0; 
+    private Boolean clearNext = false;
     @FXML
     private void btn_onClick(ActionEvent event) {
         Button btnClicked = (Button) event.getSource();
-       
+        if (clearNext) {
+            clearNext = false;
+            valueToProcess = "";
+        }
         switch (btnClicked.getId()) {
             case "btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9", "btn0":
                 if (dotPending) {
@@ -108,10 +112,10 @@ public class CalculadoraController implements Initializable {
                 operation = "";
                 break;
             case "btnAdd", "btnEqual", "btnSubtract", "btnMultiply", "btnDivide", "btnPercent":
+                clearNext = true;
                 if ( operation == "") {
                     operand = Double.valueOf(valueToProcess);
                     operation = btnClicked.getText();
-                    valueToProcess = "";
                 } else {
                     Double tmpOperand = Double.valueOf(valueToProcess);
                     switch (operation) {
@@ -131,7 +135,10 @@ public class CalculadoraController implements Initializable {
                             operand = operand * tmpOperand / 100;
                             break;
                     }
-                    operation = "";
+                    operation = btnClicked.getText();
+                    if (btnClicked.getId() == "btnEqual"){
+                        operation = "";
+                    }
                     valueToProcess = String.valueOf(operand);
                 }
         }
