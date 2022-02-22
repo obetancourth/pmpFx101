@@ -78,11 +78,26 @@ public class CalculadoraController implements Initializable {
     @FXML
     private void btn_onClick(ActionEvent event) {
         Button btnClicked = (Button) event.getSource();
+        String btnId = btnClicked.getId();
+        if ("btnBackSpace".equals(btnId)) {
+            if (valueToProcess.length() > 0) {
+                valueToProcess = valueToProcess.substring(0, valueToProcess.length() - 1);
+                if ( valueToProcess.endsWith(".")) {
+                    valueToProcess = valueToProcess.substring(0, valueToProcess.length() - 1);
+                }
+            }
+            if (!operation.isEmpty()){
+                operation="";
+                clearNext=false;
+            }
+        }
+                
+                
         if (clearNext) {
             clearNext = false;
             valueToProcess = "";
         }
-        switch (btnClicked.getId()) {
+        switch (btnId) {
             case "btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9", "btn0":
                 if (dotPending) {
                     valueToProcess = valueToProcess + ".";
@@ -98,13 +113,6 @@ public class CalculadoraController implements Initializable {
                     dotPending = true;
                 }
                 break;
-            case "btnBackSpace":
-                if (valueToProcess.length() > 0) {
-                    valueToProcess = valueToProcess.substring(0, valueToProcess.length() - 1);
-                    if ( valueToProcess.endsWith(".")) {
-                        valueToProcess = valueToProcess.substring(0, valueToProcess.length() - 1);
-                    }
-                }
             case "btnClear":
                 valueToProcess = "";
                 dotPending = false;
@@ -114,10 +122,10 @@ public class CalculadoraController implements Initializable {
             case "btnAdd", "btnEqual", "btnSubtract", "btnMultiply", "btnDivide", "btnPercent":
                 clearNext = true;
                 if ( operation == "") {
-                    operand = Double.valueOf(valueToProcess);
+                    operand = (valueToProcess.isEmpty())?0 : Double.valueOf(valueToProcess);
                     operation = btnClicked.getText();
                 } else {
-                    Double tmpOperand = Double.valueOf(valueToProcess);
+                    Double tmpOperand = (valueToProcess.isEmpty())?0:Double.valueOf(valueToProcess);
                     switch (operation) {
                         case "+":
                             operand = operand + tmpOperand;
