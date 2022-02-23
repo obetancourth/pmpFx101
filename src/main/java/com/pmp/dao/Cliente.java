@@ -146,9 +146,18 @@ public class Cliente {
     private String _genero;
     private String _estadoCivil;
     private String _estado;
+    private int _id;
     
     
     public String getString(){
         return _nombres + " " + _apellidos; 
+    }
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int _id) {
+        this._id = _id;
     }
 }

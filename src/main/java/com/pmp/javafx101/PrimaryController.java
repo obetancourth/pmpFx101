@@ -1,6 +1,7 @@
 package com.pmp.javafx101;
 
 import com.pmp.dao.Cliente;
+import com.pmp.dao.Clientes;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -43,16 +44,25 @@ public class PrimaryController implements Initializable{
 
     private ObservableList<ClienteAdapter> listaDeClientes;
     
+    private Clientes clientesModel;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        clientesModel = new Clientes();
+        
         this.clmNombres.setCellValueFactory(new PropertyValueFactory<ClienteAdapter, String>("nombres"));
         this.clmApellidos.setCellValueFactory(new PropertyValueFactory<ClienteAdapter, String>("apellidos"));
         this.clmEmail.setCellValueFactory(new PropertyValueFactory<ClienteAdapter, String>("email"));
         this.clmTelefono.setCellValueFactory(new PropertyValueFactory<ClienteAdapter, String>("telefono"));
         this.clmEstado.setCellValueFactory(new PropertyValueFactory<ClienteAdapter, String>("estado"));
 
-        listaDeClientes = FXCollections.observableArrayList();
-        this.initializeDummyData();
+        listaDeClientes = FXCollections.observableArrayList(
+                ClientesAdapterFactory.getFromClientArrayList(
+                        clientesModel.obtenerClientes()
+                )
+        );
+        //this.initializeDummyData();
         this.tblClientes.getItems().addAll(listaDeClientes);
     }
     

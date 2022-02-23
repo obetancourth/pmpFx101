@@ -5,6 +5,7 @@
 package com.pmp.javafx101;
 import com.pmp.dao.Cliente;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 /**
  *
  * @author obetancourth
@@ -83,6 +84,14 @@ public class ClienteAdapter {
         this.estado.set(_estado);
     }
     
+    public int getId() {
+        return id.get();
+    }
+
+    public void setId(int _id) {
+        this.id.set(_id);
+    }
+    
     private Cliente _cliente;
     public Cliente getCliente() {
         _cliente.setNombres(nombres.get());
@@ -94,6 +103,7 @@ public class ClienteAdapter {
         _cliente.setGenero(genero.get());
         _cliente.setOcupacion(ocupacion.get());
         _cliente.setTelefono(telefono.get());
+        _cliente.setId(id.get());
         return this._cliente;
     }
     public ClienteAdapter(){
@@ -119,6 +129,7 @@ public class ClienteAdapter {
         genero = new SimpleStringProperty("");
         estadoCivil = new SimpleStringProperty("");
         estado = new SimpleStringProperty("");
+        id = new SimpleIntegerProperty(0);
         
         nombres.set(_cliente.getNombres());
         apellidos.set(_cliente.getApellidos());
@@ -129,6 +140,7 @@ public class ClienteAdapter {
         genero.set(_cliente.getGenero());
         estadoCivil.set(_cliente.getEstadoCivil());
         estado.set(_cliente.getEstado());
+        id.set(_cliente.getId());
     }
     
     
@@ -141,4 +153,5 @@ public class ClienteAdapter {
     private SimpleStringProperty genero;
     private SimpleStringProperty estadoCivil;
     private SimpleStringProperty estado;
+    private SimpleIntegerProperty id;
 }
