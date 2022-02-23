@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.pmp.javafx101;
+import com.pmp.dao.Cliente;
 import javafx.beans.property.SimpleStringProperty;
 /**
  *

@@ -1,5 +1,6 @@
 package com.pmp.javafx101;
 
+import com.pmp.dao.Cliente;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
