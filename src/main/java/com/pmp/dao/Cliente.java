@@ -145,7 +145,7 @@ public class Cliente {
     private String _ocupacion;
     private String _genero;
     private String _estadoCivil;
-    private String _estado;
+    private String _estado = "Activo";
     private int _id;
     
     

@@ -53,25 +53,31 @@ public class ClienteformController implements Initializable {
     @FXML
     private RadioButton rdbEstCViudo;
     @FXML
-    private ComboBox<?> cmbEstado;
+    private ComboBox<String> cmbEstado;
     @FXML
     private Button btnConfirmar;
     @FXML
     private Button btnCancelar;
+    
+    private boolean confirmAction = false;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        cmbEstado.getItems().addAll("Activo", "Inactivo");
     }    
     
     @FXML
     private void btnConfirmar_click(ActionEvent event) {
+        this.confirmAction = true;
+        App.closeModal(event);
     }
 
     @FXML
     private void btnCancelar_click(ActionEvent event) {
+        this.confirmAction = false;
         App.closeModal(event);
     }
     
@@ -105,6 +111,7 @@ public class ClienteformController implements Initializable {
         rdbEstCCasado.setSelected(_cliente.getEstadoCivil() == "C");
         rdbEstCViudo.setSelected(_cliente.getEstadoCivil() == "V");
         
+        cmbEstado.setValue(_cliente.getEstado());
         
     }
     
@@ -124,7 +131,11 @@ public class ClienteformController implements Initializable {
         _cliente.setGenero(rdbGeneroMasculino.isSelected()?"M":"F");
         _cliente.setEstadoCivil(rdbEstCSoltero.isSelected()?"S":(rdbEstCCasado.isSelected()?"C":"V"));
 
+        _cliente.setEstado(cmbEstado.getValue());
         
-        
+    }
+
+    public boolean isConfirmAction() {
+        return confirmAction;
     }
 }

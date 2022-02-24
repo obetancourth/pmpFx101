@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -25,10 +26,13 @@ import javafx.scene.control.TableView;
 
 public class PrimaryController implements Initializable{
     int contador = 0;
-    @FXML
-    private Button primaryButton;
-    @FXML
-    private Label labelContador;
+    enum FormMode {
+        INS,
+        UPD,
+        DEL,
+        DSP
+    }
+    
     @FXML
     private TableView tblClientes;
     @FXML
@@ -45,7 +49,27 @@ public class PrimaryController implements Initializable{
     private ObservableList<ClienteAdapter> listaDeClientes;
     
     private Clientes clientesModel;
+    @FXML
+    private Button btnNuevo;
+    @FXML
+    private Button btnEditar;
+    @FXML
+    private Button btnMostrar;
+    @FXML
+    private Button btnEliminar;
     
+    FormMode mode;
+    
+    
+    private void reloadData(){
+        listaDeClientes = FXCollections.observableArrayList(
+                ClientesAdapterFactory.getFromClientArrayList(
+                        clientesModel.obtenerClientes()
+                )
+        );
+        this.tblClientes.getItems().clear();
+        this.tblClientes.getItems().addAll(listaDeClientes);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -57,55 +81,91 @@ public class PrimaryController implements Initializable{
         this.clmTelefono.setCellValueFactory(new PropertyValueFactory<ClienteAdapter, String>("telefono"));
         this.clmEstado.setCellValueFactory(new PropertyValueFactory<ClienteAdapter, String>("estado"));
 
-        listaDeClientes = FXCollections.observableArrayList(
-                ClientesAdapterFactory.getFromClientArrayList(
-                        clientesModel.obtenerClientes()
-                )
-        );
-        //this.initializeDummyData();
-        this.tblClientes.getItems().addAll(listaDeClientes);
+        reloadData();
     }
     
-    private void initializeDummyData() {
-        
-        Cliente cliente = new Cliente();
-        cliente.setNombres("Orlando");
-        cliente.setApellidos("Betancourth");
-        cliente.setDireccion("Tegucigalpa");
-        cliente.setEmail("obetancourthunicah@gmail.com");
-        cliente.setGenero("M");
-        cliente.setEstadoCivil("C");
-        cliente.setOcupacion("Profe");
-        cliente.setTelefono("0000-0000");
-        ClienteAdapter cadapter = new ClienteAdapter(cliente);
-        this.listaDeClientes.add(cadapter);
-    }
     
-    @FXML
-    private void switchToSecondary() throws IOException {
+    private Cliente loadClienteForm(Cliente cliente) throws IOException {
         try {
-        FXMLLoader win = App.getFXMLLoader("clienteform");
-        Parent winObject = win.load();
-        ClienteformController clientesWin = (ClienteformController) win.getController();
-        // Metodos para Inicializar los datos
-        Cliente cliente = new Cliente();
-        cliente.setNombres("Orlando");
-        cliente.setApellidos("Betancourth");
-        cliente.setDireccion("Tegucigalpa");
-        cliente.setEmail("obetancourthunicah@gmail.com");
-        cliente.setGenero("M");
-        cliente.setEstadoCivil("C");
-        cliente.setOcupacion("Profe");
-        cliente.setTelefono("0000-0000");
-        
-        clientesWin.setClienteObject(cliente);
-        App.loadFXMLModal(winObject);
-        cliente = clientesWin.getClienteObject();
-        System.out.println(cliente.getString());
-        //App.loadFXML(winObject);
+            FXMLLoader win = App.getFXMLLoader("clienteform");
+            Parent winObject = win.load();
+            ClienteformController clientesWin = (ClienteformController) win.getController();
+            clientesWin.setClienteObject(cliente);
+            App.loadFXMLModal(winObject);
+            if (clientesWin.isConfirmAction()){
+                return clientesWin.getClienteObject();
+            }
+            return null;
         } catch (IOException ex) {
             System.err.println(ex);
         }
                 
+    }
+    
+    @FXML
+    private void btnNuevo_click(ActionEvent event) {
+        try {
+            mode = FormMode.INS;
+            Cliente formData = loadClienteForm(new Cliente());
+            if (formData != null) {
+                clientesModel.agregarCliente(formData);
+                reloadData();
+            }
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+    }
+
+    @FXML
+    private void btnEditar_click(ActionEvent event) {
+         try {
+            mode = FormMode.UPD;
+            Cliente formData = loadClienteForm(
+                    ((ClienteAdapter)tblClientes
+                            .getSelectionModel()
+                            .getSelectedItem()
+                    ).getCliente()
+            );
+            if (formData != null) {
+                clientesModel.actualizarCliente(formData);
+                reloadData();
+            }
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+    }
+
+    @FXML
+    private void btnMostrar_click(ActionEvent event) {
+        try {
+            mode = FormMode.UPD;
+            Cliente formData = loadClienteForm(
+                    ((ClienteAdapter)tblClientes
+                            .getSelectionModel()
+                            .getSelectedItem()
+                    ).getCliente()
+            );
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+    }
+
+    @FXML
+    private void btnEliminar_click(ActionEvent event) {
+        try {
+            mode = FormMode.DEL;
+            Cliente formData = loadClienteForm(
+                    ((ClienteAdapter)tblClientes
+                            .getSelectionModel()
+                            .getSelectedItem()
+                    ).getCliente()
+            );
+            if (formData != null) {
+                clientesModel.deleteCliente(formData.getId());
+                reloadData();
+            }
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
     }
 }
