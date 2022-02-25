@@ -93,9 +93,9 @@ public class ClienteformController implements Initializable {
         txtTelefono.setText(_cliente.getTelefono());
         txtDireccion.setText(_cliente.getDireccion());
         txtOcupacion.setText(_cliente.getOcupacion());
-        
-        rdbGeneroMasculino.setSelected(_cliente.getGenero() == "M");
-        rdbGeneroFemenino.setSelected(_cliente.getGenero() == "F");
+        boolean generoIsM = _cliente.getGenero().equals("M");
+        rdbGeneroMasculino.setSelected(generoIsM);
+        rdbGeneroFemenino.setSelected(!generoIsM);
         
         /*
         if (_cliente.getGenero() == "M") {
@@ -106,13 +106,44 @@ public class ClienteformController implements Initializable {
             rdbGeneroFemenino.setSelected(true);
         }
         */
-        
-        rdbEstCSoltero.setSelected(_cliente.getEstadoCivil() == "S");
-        rdbEstCCasado.setSelected(_cliente.getEstadoCivil() == "C");
-        rdbEstCViudo.setSelected(_cliente.getEstadoCivil() == "V");
+        boolean isSoltero = _cliente.getEstadoCivil().equals("S");
+        boolean isCasado = _cliente.getEstadoCivil().equals("C");
+        boolean isViudo = _cliente.getEstadoCivil().equals("V");
+        rdbEstCSoltero.setSelected(isSoltero);
+        rdbEstCCasado.setSelected(isCasado);
+        rdbEstCViudo.setSelected(isViudo);
         
         cmbEstado.setValue(_cliente.getEstado());
         
+        //
+        
+    }
+    
+    public void setMode(String mode) {
+        switch (mode) {
+            case "INS":
+            case "UPD":
+                break;
+            case "DEL", "DSP":
+                txtNombres.setEditable(false);
+                txtApellidos.setEditable(false);
+                txtEmail.setEditable(false);
+                txtTelefono.setEditable(false);
+                txtDireccion.setEditable(false);
+                txtOcupacion.setEditable(false);
+
+                rdbGeneroMasculino.setDisable(true);
+                rdbGeneroFemenino.setDisable(true);
+                rdbEstCSoltero.setDisable(true);
+                rdbEstCCasado.setDisable(true);
+                rdbEstCViudo.setDisable(true);
+                cmbEstado.setEditable(false);
+                cmbEstado.setDisable(true);
+                if (mode == "DSP") btnConfirmar.setVisible(false);
+                
+                break;
+            
+        }
     }
     
     public Cliente getClienteObject(){

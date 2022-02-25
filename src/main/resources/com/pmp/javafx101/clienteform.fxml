@@ -190,7 +190,7 @@
                   <Font name="System Bold" size="13.0" />
                </font>
             </Label>
-            <ComboBox fx:id="cmbEstado" maxWidth="1.7976931348623157E308" minWidth="-Infinity" HBox.hgrow="ALWAYS">
+            <ComboBox fx:id="cmbEstado" maxWidth="1.7976931348623157E308" minWidth="-Infinity" style="-fx-background-color: #fff;" HBox.hgrow="ALWAYS">
             </ComboBox>
          </children>
          <padding>

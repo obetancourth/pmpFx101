@@ -143,8 +143,8 @@ public class Cliente {
     private String _telefono;
     private String _direccion;
     private String _ocupacion;
-    private String _genero;
-    private String _estadoCivil;
+    private String _genero = "M";
+    private String _estadoCivil = "S";
     private String _estado = "Activo";
     private int _id;
     

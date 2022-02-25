@@ -91,6 +91,7 @@ public class PrimaryController implements Initializable{
             Parent winObject = win.load();
             ClienteformController clientesWin = (ClienteformController) win.getController();
             clientesWin.setClienteObject(cliente);
+            clientesWin.setMode(mode.name());
             App.loadFXMLModal(winObject);
             if (clientesWin.isConfirmAction()){
                 return clientesWin.getClienteObject();
@@ -98,6 +99,7 @@ public class PrimaryController implements Initializable{
             return null;
         } catch (IOException ex) {
             System.err.println(ex);
+            return null;
         }
                 
     }
@@ -138,7 +140,7 @@ public class PrimaryController implements Initializable{
     @FXML
     private void btnMostrar_click(ActionEvent event) {
         try {
-            mode = FormMode.UPD;
+            mode = FormMode.DSP;
             Cliente formData = loadClienteForm(
                     ((ClienteAdapter)tblClientes
                             .getSelectionModel()
